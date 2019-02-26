@@ -20,6 +20,9 @@ namespace Exercice2_Server
             NetworkStream stream = null;
             byte[] buffer = null;
             int bytesRead = 0;
+            int keyAux = 0;
+            int resMsg = 0;
+            int i = 0;
 
             try
             {
@@ -36,21 +39,51 @@ namespace Exercice2_Server
                 var ack = Encoding.UTF8.GetBytes("ACK");
                 bytesRead = stream.Read(buffer, 0, MAX_BUFFER_SIZE);
                 Console.WriteLine(Encoding.UTF8.GetString(buffer, 0, bytesRead));
-
-                
                 stream.Write(ack, 0, ack.Length);
                 Console.WriteLine("ACKnoledge");
+                #region vars decode
+
+                string msgCrypto = Encoding.UTF8.GetString(buffer, 0, bytesRead);
+                char[] msg = new char[msgCrypto.Length];
+                msg = msgCrypto.ToCharArray(0, msgCrypto.Length);
+                #endregion
+               
                 #endregion
                 //--
                 bytesRead = stream.Read(buffer, 0, MAX_BUFFER_SIZE);
                 Console.WriteLine(BitConverter.ToInt32(buffer, 0));
-
-
                 stream.Write(ack, 0, ack.Length);
                 Console.WriteLine("ACKnoledge");
+                #region decode
+                int key = BitConverter.ToInt32(buffer, 0);
+               // Console.WriteLine(key);
+               do{
 
+                    resMsg = (int)msg[i];
+                    if (resMsg != 32)
+                    {
+                        if (resMsg - key >= 65)
+                        {
+                            resMsg -= key;
 
-                //-------------------------
+                        }
+                        else
+                        {
+                            keyAux = resMsg-65;
+
+                            resMsg = 90;
+                            resMsg -= key - keyAux;
+
+                        }
+                    }
+
+                    msg[i] = (char)resMsg;
+                    i++;
+                } while (i < msg.Length);
+                Console.WriteLine(msg);
+                
+                #endregion
+                              //-------------------------
                 
             }
             catch (Exception exception)

@@ -21,28 +21,27 @@ namespace ConsoleApp1
             NetworkStream stream = null;
             byte[] buffer = null;
             int bytesRead = 0;
+            #region vars code
             int keyAux = 0;
             int resMsg = 0;
             int i = 0;
-              
+            #endregion
+
             try
             {
                 string men = "EI SI";
-                char[] msg = new char [men.Length];
+                char[] msg = new char [men.Length];//encoding reasons
                 
                 client = new TcpClient();
                 client.Connect(IPAddress.Loopback, PORT);
                 stream = client.GetStream();
                 buffer = new byte[MAX_BUFFER_SIZE];
-                msg = men.ToCharArray(0,men.Length); ;
-                //------------------------------
+                msg = men.ToCharArray(0,men.Length); //encoding reasons (string to char)
+
                 #region Client comm block
-                //string msg = "EI SI";
-                  int key = rnd.Next(1, 26);
                 #region cifrar
-                   Console.WriteLine(key);
-                do
-                    {
+                int key = rnd.Next(1, 26);
+                do{
 
                     resMsg = (int)msg[i];
                     if (resMsg != 32)
@@ -65,31 +64,36 @@ namespace ConsoleApp1
                     msg[i] =(char)resMsg;
                     i++;
                 } while (i < msg.Length);
-                #endregion
                 Console.WriteLine(msg);
-                   byte[] packet = Encoding.UTF8.GetBytes(msg);
-                   stream.Write(packet, 0, packet.Length);
-                   Console.WriteLine("Sent data to server");
+                #endregion
+                byte[] packet = Encoding.UTF8.GetBytes(msg);
+                stream.Write(packet, 0, packet.Length);
+                Console.WriteLine("Sent data to server");
 
-                   bytesRead=stream.Read(buffer, 0, MAX_BUFFER_SIZE);
-                   Console.WriteLine(Encoding.UTF8.GetString(buffer, 0, bytesRead));
+                bytesRead=stream.Read(buffer, 0, MAX_BUFFER_SIZE);
+                Console.WriteLine(Encoding.UTF8.GetString(buffer, 0, bytesRead));
+
+                #endregion
                 //---key
                 packet = BitConverter.GetBytes(key);
                 stream.Write(packet, 0, packet.Length);
                 //---key
                 //-------------------------*/
-                #endregion
-                int num = 47;
-                packet = BitConverter.GetBytes(num);
-                stream.Write(packet, 0, packet.Length);
-                Console.WriteLine("Sent data to server");
+                #region cli send int clean
+                /* 
+                 int num = 47;
+                 packet = BitConverter.GetBytes(num);
+                 stream.Write(packet, 0, packet.Length);
+                 Console.WriteLine("Sent data to server");
 
-                bytesRead = stream.Read(buffer, 0, MAX_BUFFER_SIZE);
-                Console.WriteLine(Encoding.UTF8.GetString(buffer, 0, bytesRead));
-                                
-                stream.Write(packet, 0, packet.Length);
-                Console.WriteLine("Sent data to server");
-                
+                 bytesRead = stream.Read(buffer, 0, MAX_BUFFER_SIZE);
+                 Console.WriteLine(Encoding.UTF8.GetString(buffer, 0, bytesRead));
+
+                 stream.Write(packet, 0, packet.Length);
+                 Console.WriteLine("Sent data to server");
+                 */
+                #endregion
+
             }
             catch (Exception exception)
             {
