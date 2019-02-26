@@ -5,3 +5,10 @@ C:\SI\Ficha2\ConsoleApp1\obj\Debug\Exercice2-Client.csprojAssemblyReference.cach
 C:\SI\Ficha2\ConsoleApp1\obj\Debug\Exercice2-Client.csproj.CoreCompileInputs.cache
 C:\SI\Ficha2\ConsoleApp1\obj\Debug\ConsoleApp1.exe
 C:\SI\Ficha2\ConsoleApp1\obj\Debug\ConsoleApp1.pdb
+C:\Users\Guilherme\Documents\GitHub\SI\Ficha2\ConsoleApp1\bin\Debug\ConsoleApp1.exe.config
+C:\Users\Guilherme\Documents\GitHub\SI\Ficha2\ConsoleApp1\bin\Debug\ConsoleApp1.exe
+C:\Users\Guilherme\Documents\GitHub\SI\Ficha2\ConsoleApp1\bin\Debug\ConsoleApp1.pdb
+C:\Users\Guilherme\Documents\GitHub\SI\Ficha2\ConsoleApp1\obj\Debug\Exercice2-Client.csprojAssemblyReference.cache
+C:\Users\Guilherme\Documents\GitHub\SI\Ficha2\ConsoleApp1\obj\Debug\Exercice2-Client.csproj.CoreCompileInputs.cache
+C:\Users\Guilherme\Documents\GitHub\SI\Ficha2\ConsoleApp1\obj\Debug\ConsoleApp1.exe
+C:\Users\Guilherme\Documents\GitHub\SI\Ficha2\ConsoleApp1\obj\Debug\ConsoleApp1.pdb

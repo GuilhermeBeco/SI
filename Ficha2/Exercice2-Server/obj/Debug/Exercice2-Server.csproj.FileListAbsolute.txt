@@ -5,3 +5,10 @@ C:\SI\Ficha2\Exercice2-Server\obj\Debug\Exercice2-Server.csprojAssemblyReference
 C:\SI\Ficha2\Exercice2-Server\obj\Debug\Exercice2-Server.csproj.CoreCompileInputs.cache
 C:\SI\Ficha2\Exercice2-Server\obj\Debug\Exercice2-Server.exe
 C:\SI\Ficha2\Exercice2-Server\obj\Debug\Exercice2-Server.pdb
+C:\Users\Guilherme\Documents\GitHub\SI\Ficha2\Exercice2-Server\bin\Debug\Exercice2-Server.exe.config
+C:\Users\Guilherme\Documents\GitHub\SI\Ficha2\Exercice2-Server\bin\Debug\Exercice2-Server.exe
+C:\Users\Guilherme\Documents\GitHub\SI\Ficha2\Exercice2-Server\bin\Debug\Exercice2-Server.pdb
+C:\Users\Guilherme\Documents\GitHub\SI\Ficha2\Exercice2-Server\obj\Debug\Exercice2-Server.csprojAssemblyReference.cache
+C:\Users\Guilherme\Documents\GitHub\SI\Ficha2\Exercice2-Server\obj\Debug\Exercice2-Server.csproj.CoreCompileInputs.cache
+C:\Users\Guilherme\Documents\GitHub\SI\Ficha2\Exercice2-Server\obj\Debug\Exercice2-Server.exe
+C:\Users\Guilherme\Documents\GitHub\SI\Ficha2\Exercice2-Server\obj\Debug\Exercice2-Server.pdb
