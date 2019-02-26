@@ -1,0 +1,9 @@
+C:\SI\Ficha2\Exercicio3Client\obj\Debug\Exercicio3Client.csprojAssemblyReference.cache
+C:\SI\Ficha2\Exercicio3Client\obj\Debug\Exercicio3Client.csproj.CoreCompileInputs.cache
+C:\SI\Ficha2\Exercicio3Client\bin\Debug\Exercicio3Client.exe.config
+C:\SI\Ficha2\Exercicio3Client\bin\Debug\Exercicio3Client.exe
+C:\SI\Ficha2\Exercicio3Client\bin\Debug\Exercicio3Client.pdb
+C:\SI\Ficha2\Exercicio3Client\bin\Debug\ProtocolSI.dll
+C:\SI\Ficha2\Exercicio3Client\obj\Debug\Exercicio3Client.csproj.CopyComplete
+C:\SI\Ficha2\Exercicio3Client\obj\Debug\Exercicio3Client.exe
+C:\SI\Ficha2\Exercicio3Client\obj\Debug\Exercicio3Client.pdb

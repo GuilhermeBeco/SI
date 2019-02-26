@@ -1,0 +1,10 @@
+C:\SI\Ficha2\Ficha2\bin\Debug\Ficha2.exe.config
+C:\SI\Ficha2\Ficha2\bin\Debug\Ficha2.exe
+C:\SI\Ficha2\Ficha2\bin\Debug\Ficha2.pdb
+C:\SI\Ficha2\Ficha2\obj\Debug\Ficha2.csprojAssemblyReference.cache
+C:\SI\Ficha2\Ficha2\obj\Debug\Ficha2.Properties.Resources.resources
+C:\SI\Ficha2\Ficha2\obj\Debug\Ficha2.csproj.GenerateResource.cache
+C:\SI\Ficha2\Ficha2\obj\Debug\Ficha2.csproj.CoreCompileInputs.cache
+C:\SI\Ficha2\Ficha2\obj\Debug\Ficha2.exe
+C:\SI\Ficha2\Ficha2\obj\Debug\Ficha2.pdb
+C:\SI\Ficha2\Ficha2\obj\Debug\Ficha2.Form1.resources

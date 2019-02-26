@@ -1,0 +1,9 @@
+C:\SI\Ficha2\Exercice3Server\bin\Debug\Exercice3Server.exe.config
+C:\SI\Ficha2\Exercice3Server\bin\Debug\Exercice3Server.exe
+C:\SI\Ficha2\Exercice3Server\bin\Debug\Exercice3Server.pdb
+C:\SI\Ficha2\Exercice3Server\bin\Debug\ProtocolSI.dll
+C:\SI\Ficha2\Exercice3Server\obj\Debug\Exercice3Server.csprojAssemblyReference.cache
+C:\SI\Ficha2\Exercice3Server\obj\Debug\Exercice3Server.csproj.CoreCompileInputs.cache
+C:\SI\Ficha2\Exercice3Server\obj\Debug\Exercice3Server.csproj.CopyComplete
+C:\SI\Ficha2\Exercice3Server\obj\Debug\Exercice3Server.exe
+C:\SI\Ficha2\Exercice3Server\obj\Debug\Exercice3Server.pdb
