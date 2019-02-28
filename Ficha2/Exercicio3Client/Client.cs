@@ -12,6 +12,8 @@ namespace Exercicio3Client
     class Client
     {
         private const int PORT = 9999;
+        //****ex4
+        private const int PORT_EX_4 = 9998;
 
         static void Main(string[] args)
         {

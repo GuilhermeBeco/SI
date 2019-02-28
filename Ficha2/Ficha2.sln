@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Exercicio3Client", "Exercic
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Exercice3Server", "Exercice3Server\Exercice3Server.csproj", "{2FA193DE-19CA-4BD1-AC99-B14952D8E4DE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MITM", "MITM\MITM.csproj", "{EEB3447E-E0AC-4DDD-8F8B-9B937369880A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{2FA193DE-19CA-4BD1-AC99-B14952D8E4DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2FA193DE-19CA-4BD1-AC99-B14952D8E4DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2FA193DE-19CA-4BD1-AC99-B14952D8E4DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EEB3447E-E0AC-4DDD-8F8B-9B937369880A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EEB3447E-E0AC-4DDD-8F8B-9B937369880A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EEB3447E-E0AC-4DDD-8F8B-9B937369880A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EEB3447E-E0AC-4DDD-8F8B-9B937369880A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
