@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using EI.SI;
 using System.Net;
 using System.Net.Sockets;
+using System.Security.Cryptography;
 
 namespace Server
 {
@@ -28,6 +29,8 @@ namespace Server
             TcpClient client = null;
             NetworkStream netStream = null;
             ProtocolSI protocol = null;
+            AesCryptoServiceProvider algorithm = null;
+            SymmetricsSI symmetricsSI = null;
 
             try
             {
@@ -40,6 +43,8 @@ namespace Server
                 // Client/Server Protocol to SI
                 protocol = new ProtocolSI();
 
+                algorithm = new AesCryptoServiceProvider();
+                symmetricsSI = new SymmetricsSI(algorithm);
 
                 #endregion
 
@@ -57,15 +62,16 @@ namespace Server
                 Console.WriteLine("ok.");
                 #endregion
 
+
                 Console.WriteLine(SEPARATOR);
 
-                #region Exchange Data (Unsecure channel)                
+                #region receive key (Unsecure channel)                
                 // Receive the cipher data
                 Console.Write("waiting for data... ");
                 netStream.Read(protocol.Buffer, 0, protocol.Buffer.Length);
-                byte[] clearData = protocol.GetData();
+                algorithm.Key = protocol.GetData();
                 Console.WriteLine("ok.");
-                Console.WriteLine("   Received: {0} = {1}", ProtocolSI.ToString(clearData), ProtocolSI.ToHexString(clearData));
+                Console.WriteLine("   Received: {0}", ProtocolSI.ToHexString(algorithm.Key));
 
                 // Answer with a ACK
                 Console.Write("Sending a ACK... ");
@@ -74,6 +80,49 @@ namespace Server
                 Console.WriteLine("ok.");
                 #endregion
 
+                Console.WriteLine(SEPARATOR);
+                #region receive IV (Unsecure channel)                
+                // Receive the cipher data
+                Console.Write("waiting for data... ");
+                netStream.Read(protocol.Buffer, 0, protocol.Buffer.Length);
+                algorithm.IV = protocol.GetData();
+                Console.WriteLine("ok.");
+                Console.WriteLine("   Received: {0}", ProtocolSI.ToHexString(algorithm.IV));
+
+                // Answer with a ACK
+                Console.Write("Sending a ACK... ");
+                msg = protocol.Make(ProtocolSICmdType.ACK);
+                netStream.Write(msg, 0, msg.Length);
+                Console.WriteLine("ok.");
+                #endregion
+
+                Console.WriteLine(SEPARATOR);
+
+                #region Exchange Data (Unsecure channel)                
+                // Receive the cipher data
+                Console.Write("waiting for data... ");
+                netStream.Read(protocol.Buffer, 0, protocol.Buffer.Length);
+                byte[] encryptedBytes = protocol.GetData();
+                byte[] clearBytes= symmetricsSI.Decrypt(encryptedBytes);
+                string clearData = Encoding.UTF8.GetString(clearBytes);
+                Console.WriteLine("ok.");
+                Console.WriteLine("   Received: {0} = {1}", clearData, ProtocolSI.ToHexString(encryptedBytes));
+
+                // Answer with a ACK
+                Console.Write("Sending a ACK... ");
+                msg = protocol.Make(ProtocolSICmdType.ACK);
+                netStream.Write(msg, 0, msg.Length);
+                Console.WriteLine("ok.");
+                #endregion
+
+            }
+            catch (CryptographicException exception)
+            {
+                // Answer with a ACK
+                Console.Write("Sending a NACK... ");
+                msg = protocol.Make(ProtocolSICmdType.NACK);
+                netStream.Write(msg, 0, msg.Length);
+                Console.WriteLine("ok.");
             }
             catch (Exception ex)
             {
@@ -89,6 +138,8 @@ namespace Server
                     client.Close();
                 if (server != null)
                     server.Stop();
+                if (algorithm != null)
+                    algorithm.Dispose();
                 Console.WriteLine(SEPARATOR);
                 Console.WriteLine("Connection with client was closed.");
             }
