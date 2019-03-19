@@ -41,10 +41,8 @@ namespace ei_si_worksheet3
         {
             try
             {              
-                //file = new FileStream("temp.dat", FileMode.OpenOrCreate);
-                byte[] textFileBytes = Encoding.UTF8.GetBytes(textFile);
-                string textFile64 = Convert.ToBase64String(textFileBytes);
-                byte[] clearBytes = Encoding.UTF8.GetBytes(textFile64);
+             
+                byte[] clearBytes = Encoding.UTF8.GetBytes(textFile);
                 byte[] encryptedBytes = null;
                 encryptedBytes = symmetricsSI.Encrypt(clearBytes);
                 if (encryptedBytes.Length >= 100)
@@ -63,7 +61,7 @@ namespace ei_si_worksheet3
                 }
                 fileStreamWriter = new StreamWriter("temp.dat");
                 fileStreamWriter.WriteLine(Convert.ToBase64String(encryptedBytes));
-                MessageBox.Show(Convert.ToBase64String(encryptedBytes));
+            //    MessageBox.Show(Convert.ToBase64String(encryptedBytes));
 
             }
             catch(Exception ex)
@@ -118,7 +116,7 @@ namespace ei_si_worksheet3
                 
                 fileStreamReader = new StreamReader("temp.dat");
                 textFileTemp = fileStreamReader.ReadToEnd();
-                MessageBox.Show(textFileTemp);
+               // MessageBox.Show(textFileTemp);
                 byte[] encryptedBytes= Convert.FromBase64String(textFileTemp);
                 byte[] clearBytes = null;
                 clearBytes = symmetricsSI.Decrypt(encryptedBytes);
@@ -138,7 +136,7 @@ namespace ei_si_worksheet3
                 }
                 fileStreamReader.Close();
                 fileStreamWriter = new StreamWriter("temp.dat");
-                fileStreamWriter.WriteLine(Convert.ToBase64String(clearBytes));
+                fileStreamWriter.WriteLine(Encoding.UTF8.GetString(clearBytes));
 
             }
             catch (Exception ex)
