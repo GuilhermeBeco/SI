@@ -42,9 +42,9 @@ namespace ei_si_worksheet3
             try
             {              
                 //file = new FileStream("temp.dat", FileMode.OpenOrCreate);
-                byte[] textFileBytes = Encoding.UTF8.GetBytes(textFile);
-                string textFile64 = Convert.ToBase64String(textFileBytes);
-                byte[] clearBytes = Encoding.UTF8.GetBytes(textFile64);
+               // byte[] textFileBytes = Encoding.UTF8.GetBytes(textFile);
+               // string textFile64 = Convert.ToBase64String(textFileBytes);
+                byte[] clearBytes = Encoding.UTF8.GetBytes(textFile);
                 byte[] encryptedBytes = null;
                 encryptedBytes = symmetricsSI.Encrypt(clearBytes);
                 if (encryptedBytes.Length >= 100)
