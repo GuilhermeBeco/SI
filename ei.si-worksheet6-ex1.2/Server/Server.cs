@@ -33,13 +33,16 @@ namespace EI.SI
             SymmetricsSI symmetricsSI = null;
             RSACryptoServiceProvider rsaClient = null;
             RSACryptoServiceProvider rsaServer = null;
+            SHA256CryptoServiceProvider sha = null;
 
-            try
+             try
             {
                 Console.WriteLine("SERVER");
 
                 #region Defenitions
+                sha = new SHA256CryptoServiceProvider();
                 // algortimos assimétricos
+                
                 rsaClient = new RSACryptoServiceProvider();
                 rsaServer = new RSACryptoServiceProvider();
 
@@ -55,6 +58,7 @@ namespace EI.SI
 
 
                 #endregion
+
 
                 Console.WriteLine(SEPARATOR);
                  
@@ -116,7 +120,6 @@ namespace EI.SI
                 netStream.Write(msg, 0, msg.Length);
                 Console.WriteLine("ok");
                 #endregion
-
                 Console.WriteLine(SEPARATOR);
 
                 #region Exchange Data (Secure channel)                
@@ -132,6 +135,32 @@ namespace EI.SI
                 // Answer with a ACK
                 Console.Write("Sending a ACK... ");
                 msg = protocol.Make(ProtocolSICmdType.ACK);
+                netStream.Write(msg, 0, msg.Length);
+                Console.WriteLine("ok");
+                #endregion
+
+                Console.WriteLine(SEPARATOR);
+
+                #region Exchange Sign (Secure channel)                
+                // Receive the cipher
+                Console.Write("waiting for data...");
+                netStream.Read(protocol.Buffer, 0, protocol.Buffer.Length);
+                byte[] signature = protocol.GetData();
+                byte[] hash = sha.ComputeHash(data);
+                bool isVerified = rsaClient.VerifyHash(hash, CryptoConfig.MapNameToOID("SHA256"),signature);
+                Console.WriteLine("ok");
+                Console.WriteLine("Sign: {0}", ProtocolSI.ToHexString(signature));
+
+                // Answer with a ACK
+                Console.Write("Sending a ACK/NACK... ");
+                if (isVerified)
+                {
+                    msg = protocol.Make(ProtocolSICmdType.ACK);
+                }
+                else
+                {
+                    msg = protocol.Make(ProtocolSICmdType.NACK);
+                }
                 netStream.Write(msg, 0, msg.Length);
                 Console.WriteLine("ok");
                 #endregion
