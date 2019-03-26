@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -24,7 +25,13 @@ namespace ei.si.worksheet5
 
         private void ButtonMD5ComputeHash_Click(object sender, EventArgs e)
         {
+            using (MD5CryptoServiceProvider algorithm = new MD5CryptoServiceProvider())
+            {
+                byte[] data = Encoding.UTF8.GetBytes(textBoxDataToHash.Text);
+                byte[] hash = algorithm.ComputeHash(data);
+                textBoxDataToHash.Text = BitConverter.ToString(hash);
 
+            }
         }
 
         private void ButtonSHA1ComputeHash_Click(object sender, EventArgs e)
