@@ -36,17 +36,35 @@ namespace ei.si.worksheet5
 
         private void ButtonSHA1ComputeHash_Click(object sender, EventArgs e)
         {
+            using (SHA1CryptoServiceProvider algorithm = new SHA1CryptoServiceProvider())
+            {
+                byte[] data = Encoding.UTF8.GetBytes(textBoxDataToHash.Text);
+                byte[] hash = algorithm.ComputeHash(data);
+                textBoxHashBytes.Text = BitConverter.ToString(hash);
 
+            }
         }
 
         private void ButtonSHA256ComputeHash_Click(object sender, EventArgs e)
         {
+            using (SHA256CryptoServiceProvider algorithm = new SHA256CryptoServiceProvider())
+            {
+                byte[] data = Encoding.UTF8.GetBytes(textBoxDataToHash.Text);
+                byte[] hash = algorithm.ComputeHash(data);
+                textBoxHashBytes.Text = BitConverter.ToString(hash);
 
+            }
         }
 
         private void ButtonSHA512ComputeHash_Click(object sender, EventArgs e)
         {
+            using (SHA512CryptoServiceProvider algorithm = new SHA512CryptoServiceProvider())
+            {
+                byte[] data = Encoding.UTF8.GetBytes(textBoxDataToHash.Text);
+                byte[] hash = algorithm.ComputeHash(data);
+                textBoxHashBytes.Text = BitConverter.ToString(hash);
 
+            }
         }
     }
 }
