@@ -27,35 +27,21 @@ namespace EI.SI
             IPEndPoint listenEndPoint;
             TcpListener server = null;
             TcpClient client = null;
-            NetworkStream netStream = null;
-            ProtocolSI protocol = null;
-            AesCryptoServiceProvider aes = null;
-            SymmetricsSI symmetricsSI = null;
-            RSACryptoServiceProvider rsaClient = null;
-            RSACryptoServiceProvider rsaServer = null;
-            SHA256CryptoServiceProvider sha = null;
+            
+
             int[] id = { 123, 234, 345, 456 };
             double[] balance= { 455.02, 124.00, 987.00, 1000.94 };
+            int end = 0;
             try
             {
                 Console.WriteLine("SERVER");
 
                 #region Defenitions
-                sha = new SHA256CryptoServiceProvider();
-                // algortimos assimétricos
-
-                rsaClient = new RSACryptoServiceProvider();
-                rsaServer = new RSACryptoServiceProvider();
-
-                // algoritmos simétrico a usar...
-                aes = new AesCryptoServiceProvider();
-                symmetricsSI = new SymmetricsSI(aes);
-
+               
                 // Binding IP/port
                 listenEndPoint = new IPEndPoint(IPAddress.Any, 13000);
 
-                // Client/Server Protocol to SI
-                protocol = new ProtocolSI();
+               
 
 
                 #endregion
@@ -77,93 +63,131 @@ namespace EI.SI
 
                     Thread tcpListenerThread = new Thread(() =>
                     {
+
+                        NetworkStream netStream = null;
+                        ProtocolSI protocol = null;
+                        AesCryptoServiceProvider aes = null;
+                        SymmetricsSI symmetricsSI = null;
+                        RSACryptoServiceProvider rsaClient = null;
+                        RSACryptoServiceProvider rsaServer = null;
+                        SHA256CryptoServiceProvider sha = null;
+                        sha = new SHA256CryptoServiceProvider();
+                        // algortimos assimétricos
+
+                        rsaClient = new RSACryptoServiceProvider();
+                        rsaServer = new RSACryptoServiceProvider();
+
+                        // algoritmos simétrico a usar...
+                        aes = new AesCryptoServiceProvider();
+                        symmetricsSI = new SymmetricsSI(aes);
+                        // Client/Server Protocol to SI
+                        protocol = new ProtocolSI();
+
+
                         netStream = client.GetStream();
-                        Console.WriteLine("ok");
-                        #endregion
-
-                        Console.WriteLine(SEPARATOR);
-
-                        #region Exhange Public Keys
-                        // Receive client public key
-                        Console.Write("waiting for client public key...");
-                        netStream.Read(protocol.Buffer, 0, protocol.Buffer.Length);
-                        rsaClient.FromXmlString(protocol.GetStringFromData());
-                        Console.WriteLine("ok");
-
-                        // Send public key...
-                        Console.Write("Sending public key... ");
-                        msg = protocol.Make(ProtocolSICmdType.PUBLIC_KEY, rsaServer.ToXmlString(false));
-                        netStream.Write(msg, 0, msg.Length);
-                        Console.WriteLine("ok");
-                        #endregion
-
-                        Console.WriteLine(SEPARATOR);
-
-                        #region Exchange Secret Key               
-                        // Receive key
-                        Console.Write("waiting for key...");
-                        netStream.Read(protocol.Buffer, 0, protocol.Buffer.Length);
-                        aes.Key = rsaServer.Decrypt(protocol.GetData(), true);
-                        Console.WriteLine("ok");
-                        Console.WriteLine("   Received: {0} ", ProtocolSI.ToHexString(aes.Key));
-
-                        // Answer with a ACK
-                        Console.Write("Sending a ACK... ");
-                        msg = protocol.Make(ProtocolSICmdType.ACK);
-                        netStream.Write(msg, 0, msg.Length);
-                        Console.WriteLine("ok");
+                            Console.WriteLine("ok");
+                            #endregion
 
 
-                        // Receive iv
-                        Console.Write("waiting for iv...");
-                        netStream.Read(protocol.Buffer, 0, protocol.Buffer.Length);
-                        aes.IV = rsaServer.Decrypt(protocol.GetData(), true);
-                        Console.WriteLine("ok");
-                        Console.WriteLine("   Received: {0} ", ProtocolSI.ToHexString(aes.IV));
+                            Console.WriteLine(SEPARATOR);
 
-                        // Answer with a ACK
-                        Console.Write("Sending a ACK... ");
-                        msg = protocol.Make(ProtocolSICmdType.ACK);
-                        netStream.Write(msg, 0, msg.Length);
-                        Console.WriteLine("ok");
-                        #endregion
-                        Console.WriteLine(SEPARATOR);
+                            #region Exhange Public Keys
+                            // Receive client public key
+                            Console.Write("waiting for client public key...");
+                            netStream.Read(protocol.Buffer, 0, protocol.Buffer.Length);
+                            rsaClient.FromXmlString(protocol.GetStringFromData());
+                            Console.WriteLine("ok");
 
-                        Console.WriteLine(SEPARATOR);
+                            // Send public key...
+                            Console.Write("Sending public key... ");
+                            msg = protocol.Make(ProtocolSICmdType.PUBLIC_KEY, rsaServer.ToXmlString(false));
+                            netStream.Write(msg, 0, msg.Length);
+                            Console.WriteLine("ok");
+                            #endregion
 
-                        #region Exchange Sign (Secure channel)                
-                        // Receive the cipher
-                        Console.Write("waiting for data...");
-                        netStream.Read(protocol.Buffer, 0, protocol.Buffer.Length);
-                        byte[] signature = protocol.GetData();
+                            Console.WriteLine(SEPARATOR);
 
-                        int y = 0;
-                        bool isVerified = false;
-                        do
-                        {
-                            byte[] data = BitConverter.GetBytes(id[y]);
-                            byte[] hash = sha.ComputeHash(data);
-                            isVerified = rsaClient.VerifyHash(hash, CryptoConfig.MapNameToOID("SHA256"), signature);
-                            y++;
-                        } while (!isVerified && y < id.Length);
-                        y--;
-                        Console.WriteLine(isVerified);
-                        Console.WriteLine(y);
-                        // Answer with a ACK
-                        Console.Write("Sending a Balance/NACK... ");
-                        if (isVerified)
-                        {
-                            Console.WriteLine(balance[y]);
-                            msg = protocol.Make(ProtocolSICmdType.DATA, balance[y]);
-                        }
-                        else
-                        {
-                            msg = protocol.Make(ProtocolSICmdType.NACK);
-                        }
-                        netStream.Write(msg, 0, msg.Length);
-                        Console.WriteLine("ok");
-                        #endregion
+                            #region Exchange Secret Key               
+                            // Receive key
+                            Console.Write("waiting for key...");
+                            netStream.Read(protocol.Buffer, 0, protocol.Buffer.Length);
+                            aes.Key = rsaServer.Decrypt(protocol.GetData(), true);
+                            Console.WriteLine("ok");
+                            Console.WriteLine("   Received: {0} ", ProtocolSI.ToHexString(aes.Key));
+
+                            // Answer with a ACK
+                            Console.Write("Sending a ACK... ");
+                            msg = protocol.Make(ProtocolSICmdType.ACK);
+                            netStream.Write(msg, 0, msg.Length);
+                            Console.WriteLine("ok");
+
+
+                            // Receive iv
+                            Console.Write("waiting for iv...");
+                            netStream.Read(protocol.Buffer, 0, protocol.Buffer.Length);
+                            aes.IV = rsaServer.Decrypt(protocol.GetData(), true);
+                            Console.WriteLine("ok");
+                            Console.WriteLine("   Received: {0} ", ProtocolSI.ToHexString(aes.IV));
+
+                            // Answer with a ACK
+                            Console.Write("Sending a ACK... ");
+                            msg = protocol.Make(ProtocolSICmdType.ACK);
+                            netStream.Write(msg, 0, msg.Length);
+                            Console.WriteLine("ok");
+                            #endregion
+                            Console.WriteLine(SEPARATOR);
+
+                            Console.WriteLine(SEPARATOR);
+
+                            #region Exchange Sign (Secure channel)                
+                            // Receive the cipher
+                            do
+                            {
+                                Console.Write("waiting for data...");
+                                netStream.Read(protocol.Buffer, 0, protocol.Buffer.Length);
+                                if (protocol.GetCmdType() != ProtocolSICmdType.EOT)
+                                {
+                                    byte[] signature = protocol.GetData();
+                                    int y = 0;
+                                    bool isVerified = false;
+                                    do
+                                    {
+                                        byte[] data = BitConverter.GetBytes(id[y]);
+                                        byte[] hash = sha.ComputeHash(data);
+                                        isVerified = rsaClient.VerifyHash(hash, CryptoConfig.MapNameToOID("SHA256"), signature);
+                                        y++;
+                                    } while (!isVerified && y < id.Length);
+                                    y--;
+                                    Console.WriteLine(isVerified);
+                                    Console.WriteLine(y);
+                                    // Answer with a ACK
+                                    Console.Write("Sending a Balance/NACK... ");
+                                    if (isVerified)
+                                    {
+                                        Console.WriteLine(balance[y]);
+                                        msg = protocol.Make(ProtocolSICmdType.DATA, balance[y]);
+                                    }
+                                    else
+                                    {
+                                        msg = protocol.Make(ProtocolSICmdType.NACK);
+                                    }
+                                    netStream.Write(msg, 0, msg.Length);
+                                    Console.WriteLine("ok");
+                                    end = 0;
+                                    y = 0;
+                                }
+                                else
+                                {
+                                    msg = protocol.Make(ProtocolSICmdType.EOT);
+                                    netStream.Write(msg, 0, msg.Length);
+                                    end = 1;
+                                }
+
+                            } while (end != 1);
+                            #endregion
+                        
                     });
+                
                     //falta o eot
                     tcpListenerThread.Start();
                 }
@@ -176,8 +200,7 @@ namespace EI.SI
             finally
             {
                 // Close connections
-                if (netStream != null)
-                    netStream.Dispose();
+              
                 if (client != null)
                     client.Close();
                 if (server != null)

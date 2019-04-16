@@ -168,6 +168,7 @@ namespace EI.SI
                         // Receive answer from server
                         Console.Write("waiting for balance...");
                         netStream.Read(protocol.Buffer, 0, protocol.Buffer.Length);
+                        
                         if (protocol.GetCmdType() == ProtocolSICmdType.DATA)
                         {
                             Console.Write(ProtocolSI.ConvertByteArrayToDouble(protocol.GetData()));
@@ -176,6 +177,8 @@ namespace EI.SI
                         {
                             Console.WriteLine("Sign not valid");
                         }
+                        //msg = protocol.Make(ProtocolSICmdType.ACK);
+                        //netStream.Write(msg, 0, msg.Length);
                        
                         Console.WriteLine(SEPARATOR);
                         #endregion
@@ -183,6 +186,9 @@ namespace EI.SI
                     else if (opt == 0)
                     {
                         Console.WriteLine("A sair...");
+                        msg=protocol.Make(ProtocolSICmdType.EOT);
+                        netStream.Write(msg, 0, msg.Length);
+                        netStream.Read(protocol.Buffer, 0, protocol.Buffer.Length);
                     }
                     else
                     {
