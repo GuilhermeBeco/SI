@@ -37,13 +37,8 @@ namespace EI.SI
                 Console.WriteLine("SERVER");
 
                 #region Defenitions
-               
                 // Binding IP/port
                 listenEndPoint = new IPEndPoint(IPAddress.Any, 13000);
-
-               
-
-
                 #endregion
 
 
@@ -164,8 +159,11 @@ namespace EI.SI
                                     Console.Write("Sending a Balance/NACK... ");
                                     if (isVerified)
                                     {
-                                        Console.WriteLine(balance[y]);
-                                        msg = protocol.Make(ProtocolSICmdType.DATA, balance[y]);
+                                    Console.WriteLine(balance[y]);
+                                        byte[] clearData = Encoding.UTF8.GetBytes(balance[y].ToString());
+                                        byte[] encryptedData = symmetricsSI.Encrypt(clearData);
+                                        msg = protocol.Make(ProtocolSICmdType.DATA, encryptedData);
+                                    
                                     }
                                     else
                                     {

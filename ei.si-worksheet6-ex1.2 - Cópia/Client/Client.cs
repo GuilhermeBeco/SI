@@ -131,24 +131,6 @@ namespace EI.SI
                     opt = int.Parse(op);
                     if (opt == 1)
                     {
-                      /*  #region Exchange Data (Secure channel)
-                        // Send data...
-                        byte[] clearData = Encoding.UTF8.GetBytes("hello world!!!");
-                        Console.Write("Sending  data... ");
-                        byte[] encryptedData = symmetricsSI.Encrypt(clearData);
-                        msg = protocol.Make(ProtocolSICmdType.DATA, encryptedData);
-                        netStream.Write(msg, 0, msg.Length);
-                        Console.WriteLine("ok");
-                        Console.WriteLine("   Data: {0} = {1}", ProtocolSI.ToString(clearData), ProtocolSI.ToHexString(clearData));
-                        Console.WriteLine("   Encrypted: {0}", ProtocolSI.ToHexString(encryptedData));
-
-                        // Receive answer from server
-                        Console.Write("waiting for ACK...");
-                        netStream.Read(protocol.Buffer, 0, protocol.Buffer.Length);
-                        Console.WriteLine("ok");
-                        #endregion
-                        */
-
                         Console.WriteLine(SEPARATOR);
 
                         #region SendSign (Secure channel)
@@ -165,20 +147,20 @@ namespace EI.SI
                         netStream.Write(msg, 0, msg.Length);
                         Console.WriteLine("ok");
 
-                        // Receive answer from server
+                     
                         Console.Write("waiting for balance...");
                         netStream.Read(protocol.Buffer, 0, protocol.Buffer.Length);
                         
                         if (protocol.GetCmdType() == ProtocolSICmdType.DATA)
                         {
-                            Console.Write(ProtocolSI.ConvertByteArrayToDouble(protocol.GetData()));
+                            byte[] data = symmetricsSI.Decrypt(protocol.GetData());
+                            Console.WriteLine(Encoding.UTF8.GetString(data));
                         }
                         else
                         {
                             Console.WriteLine("Sign not valid");
                         }
-                        //msg = protocol.Make(ProtocolSICmdType.ACK);
-                        //netStream.Write(msg, 0, msg.Length);
+                     
                        
                         Console.WriteLine(SEPARATOR);
                         #endregion
